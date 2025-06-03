@@ -1,5 +1,6 @@
 'use client'
 
+import { getBuyer } from '@/lib/api/getBuyer';
 import { getProducts } from '@/lib/api/getProducts';
 import React from 'react';
 
@@ -28,6 +29,8 @@ export default function InvoiceForm() {
         console.log('Invoice data: ', data)
     };
 
+
+
     return (
         <div className='border-amber-600'>
             <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-center items-center'>
@@ -52,7 +55,7 @@ export default function InvoiceForm() {
                 <button type='submit'>✅ Submit Invoice</button>
             </form>
 
-            <button onClick={() => console.log(getProducts())} className='bg-cyan-400 p-5 rounded-2xl hover:bg-red-500 hover:text-white'>TEST BUTTON</button>
+            <button className='bg-cyan-400 p-5 rounded-2xl hover:bg-red-500 hover:text-white'>TEST BUTTON</button>
         </div>
     )
 }
