@@ -12,12 +12,6 @@ import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getProducts } from '@/lib/api/getProducts';
 
-const allProducts = [
-  { id: '1', name: 'Product A', value: 100 },
-  { id: '2', name: 'Product B', value: 150 },
-  { id: '3', name: 'Product C', value: 200 },
-]
-
 type ProductRow = {
     id: string;
     name: string;
@@ -37,7 +31,7 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
             const data = await getProducts();
             const formattedData = data.map(product => ({
                 id: product.id,
-                name: product.name || 'Unknown Product',
+                name: product.name || 'Продукт не знайдено',
                 value: product.price || 0
             }))
             setProducts(formattedData);
@@ -55,7 +49,6 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
       return
     }
   }
-
         setRows(prevRow => [...prevRow, {id: '', name: '', value: 0, quantity: 1}])
         setErrorIndex(null)
     }
@@ -88,13 +81,13 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
                         "w-[500px] justify-between",
                         errorIndex === index && "border-red-500 text-red-500"
                     )}>
-                {row.name || (errorIndex === index ? "Будь ласка, оберіть продукт" : "Select product")}
+                {row.name || (errorIndex === index ? "Будь ласка, оберіть продукт" : "Оберіть продукт")}
                 <ChevronsUpDownIcon className="ml-2 h-4 w-4 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="p-0 w-[500px]">
               <Command>
-                <CommandInput placeholder="Search product..." />
+                <CommandInput placeholder="Оберіть продукт..." />
                 <CommandList>
                   {products.map(p => (
                     <CommandItem
@@ -139,8 +132,8 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
       ))}
 
       <div className="flex gap-4">
-        <Button onClick={handleAddRow}>Add more</Button>
-        <Button variant="secondary" onClick={handleSubmit}>Apply</Button>
+        <Button onClick={handleAddRow}>Додати продукт</Button>
+        <Button variant="secondary" onClick={handleSubmit}>Створити накладну</Button>
       </div>
     </div>
   )

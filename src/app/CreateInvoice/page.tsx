@@ -6,6 +6,8 @@ import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import SellerSearch from "./SellerSearch";
 import ProductSelector from './ProductSelector';
+import { addInvoiceData } from '@/lib/api/addInvoiceData';
+
 
 type ProductItem = {
     id: string;
@@ -22,22 +24,21 @@ export default function CreateInvoice() {
 
       const handleProductsSubmit = (products:ProductItem[]) => {
         setProductChoice(products)
-  }
+
+        // const newInvoiceData = {
+        //     buyer_name: 
+        // }
+        // addInvoiceData()
+        console.log(sellerChoise, productChoice)
+    }
     
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
-                <div className="flex flex-1 justify-center items-end pt-5">
+                <div className="flex flex-col flex-1  gap-8 justify-center items-center pt-5">
                     <SellerSearch value={sellerChoise} onSellerChange={setSellerChoise}/>
+                    {sellerChoise && <ProductSelector onSubmit={handleProductsSubmit} />}
                 </div>                
-                <div className="flex flex-1 justify-center pt-5">
-                    <ProductSelector onSubmit={handleProductsSubmit}/>
-                </div>
-
-                <button onClick={() => {
-                    console.log(sellerChoise),
-                    console.log(productChoice)
-                }}>test me sir</button>
             <Footer />
         </div>
     )

@@ -37,7 +37,7 @@ export default function SellerSearch({onSellerChange, value} : Props) {
         const data = await getBuyer();
         const formattedData = data.map(buyer => ({
             value: buyer.name,
-            label: buyer.name || 'Unknown Buyer'
+            label: buyer.name || 'Невідомий покупець'
         }))
         setBuyers(formattedData)
     }
@@ -65,7 +65,7 @@ export default function SellerSearch({onSellerChange, value} : Props) {
         <Command>
           <CommandInput placeholder="Оберіть покупця..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Покупець не знайдений.</CommandEmpty>
             <CommandGroup>
               {buyers.map((buyer) => (
                 <CommandItem
