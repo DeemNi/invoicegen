@@ -23,21 +23,22 @@ import {
 import { getBuyer } from "@/lib/api/getBuyer"
 
 type Props = {
-    value: string | null;
-    onSellerChange: (value: string | null) => void;
+    value: { name: string; location: string } | null;
+    onSellerChange: (value: { name: string; location: string } | null) => void;
 }
 
 export default function SellerSearch({onSellerChange, value} : Props) {
 
   const [open, setOpen] = React.useState(false)
-  const [buyers, setBuyers] = React.useState<{value: string, label: string}[]>([])
+  const [buyers, setBuyers] = React.useState<{ value: string; label: string; location: string }[]>([]);
 
   React.useEffect(() => {
     const fetchBuyers = async () => {
         const data = await getBuyer();
         const formattedData = data.map(buyer => ({
             value: buyer.name,
-            label: buyer.name || 'Невідомий покупець'
+            label: buyer.name || 'Невідомий покупець',
+            location: buyer.location || 'Невідомий покупець'
         }))
         setBuyers(formattedData)
     }
@@ -47,7 +48,7 @@ export default function SellerSearch({onSellerChange, value} : Props) {
 
     return(
         <>
-<Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -55,8 +56,8 @@ export default function SellerSearch({onSellerChange, value} : Props) {
           aria-expanded={open}
           className="w-[300px] justify-between" // Розмір селектбокса
         >
-          {value
-            ? buyers.find((buyer) => buyer.value === value)?.label
+          {value?.name
+            ? buyers.find((buyer) => buyer.value === value.name)?.label
             : "Оберіть покупця..."}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -72,14 +73,17 @@ export default function SellerSearch({onSellerChange, value} : Props) {
                   key={buyer.value}
                   value={buyer.value}
                   onSelect={(currentValue) => {
-                    onSellerChange(currentValue === value ? "" : currentValue)
-                    setOpen(false)
+                    const selectedBuyer = buyers.find((b) => b.value === currentValue);
+                    if (!selectedBuyer) return;
+                    
+                    onSellerChange(currentValue === value?.name ? null: {name: currentValue, location: selectedBuyer.location})
+                    setOpen(false);
                   }}
                 >
                   <CheckIcon
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === buyer.value ? "opacity-100" : "opacity-0"
+                      value?.name === buyer.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {buyer.label}

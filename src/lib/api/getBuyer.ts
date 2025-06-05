@@ -11,6 +11,7 @@ export async function getBuyer() {
         return {
             id: doc.id,
             name: data.name,
+            location: data.location,
             ...data
         }
     });

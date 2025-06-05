@@ -6,7 +6,7 @@ import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
 import SellerSearch from "./SellerSearch";
 import ProductSelector from './ProductSelector';
-import { addInvoiceData } from '@/lib/api/addInvoiceData';
+import { addInvoiceData, InvoiceData } from '@/lib/api/addInvoiceData';
 
 
 type ProductItem = {
@@ -19,25 +19,34 @@ type ProductItem = {
 
 export default function CreateInvoice() {
     
-    const [sellerChoise, setSellerChoise] = React.useState<string | null>(null);
+    const [sellerChoice, setSellerChoice] = React.useState<{ name: string; location: string } | null>(null);
     const [productChoice, setProductChoice] = React.useState<ProductItem[]>([]);
 
-      const handleProductsSubmit = (products:ProductItem[]) => {
+      const handleProductsSubmit = async (products:ProductItem[]) => {
         setProductChoice(products)
 
-        // const newInvoiceData = {
-        //     buyer_name: 
-        // }
-        // addInvoiceData()
-        console.log(sellerChoise, productChoice)
+    const newInvoiceData: InvoiceData = {
+        buyer_name: sellerChoice?.name || '',
+        buyer_addr: sellerChoice?.location || '',
+        product_data: products,
+    };
+
+    const result = await addInvoiceData(newInvoiceData);
+
+      if (result.success) {
+        setSellerChoice(null);
+        setProductChoice([]);
+    } else {
+    console.error('Помилка при створенні накладної', result.error);
+  }
     }
     
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
                 <div className="flex flex-col flex-1  gap-8 justify-center items-center pt-5">
-                    <SellerSearch value={sellerChoise} onSellerChange={setSellerChoise}/>
-                    {sellerChoise && <ProductSelector onSubmit={handleProductsSubmit} />}
+                    <SellerSearch value={sellerChoice} onSellerChange={setSellerChoice}/>
+                    {sellerChoice && <ProductSelector onSubmit={handleProductsSubmit} />}
                 </div>                
             <Footer />
         </div>
