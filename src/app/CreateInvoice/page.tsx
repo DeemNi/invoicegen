@@ -7,6 +7,7 @@ import Header from "@/components/Header/Header";
 import SellerSearch from "./SellerSearch";
 import ProductSelector from './ProductSelector';
 import { addInvoiceData, InvoiceData } from '@/lib/api/addInvoiceData';
+import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute';
 
 
 type ProductItem = {
@@ -29,6 +30,7 @@ export default function CreateInvoice() {
         buyer_name: sellerChoice?.name || '',
         buyer_addr: sellerChoice?.location || '',
         product_data: products,
+        created_at: new Date()
     };
 
     const result = await addInvoiceData(newInvoiceData);
@@ -43,12 +45,14 @@ export default function CreateInvoice() {
     
     return (
         <div className="min-h-screen flex flex-col">
-            <Header />
-                <div className="flex flex-col flex-1  gap-8 justify-center items-center pt-5">
-                    <SellerSearch value={sellerChoice} onSellerChange={setSellerChoice}/>
-                    {sellerChoice && <ProductSelector onSubmit={handleProductsSubmit} />}
-                </div>                
-            <Footer />
+            <ProtectedRoute>
+                <Header />
+                    <div className="flex flex-col flex-1 gap-8  items-center pt-5">
+                        <SellerSearch value={sellerChoice} onSellerChange={setSellerChoice}/>
+                        {sellerChoice && <ProductSelector onSubmit={handleProductsSubmit} />}
+                    </div>                
+                <Footer />
+            </ProtectedRoute>
         </div>
     )
 }

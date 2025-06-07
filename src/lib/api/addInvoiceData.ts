@@ -14,6 +14,7 @@ export interface InvoiceData {
   buyer_name: string;
   buyer_addr: string;
   product_data: ProductItem[];
+  created_at: Date;
 }
 
 export async function addInvoiceData(invoiceData: InvoiceData) {
