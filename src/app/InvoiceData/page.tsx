@@ -11,8 +11,9 @@ import { getInvoiceData } from "@/lib/api/getInvoiceData";
 import React from 'react';
 import { get } from "http";
 import { ProtectedRoute } from "@/components/ProtectedRoute/ProtectedRoute";
+import {InvoiceDownloadButton} from "@/components/InvoiceDownloadButton";
 
-type Invoice = {
+export type Invoice = {
   id: string;
   buyerName: string;
   date: Date;
@@ -41,6 +42,10 @@ export default function InvoiceData() {
     React.useEffect(() => {
         fetchInvoices();
     }, [])
+
+    function check(invoice: Invoice) {
+        console.log(invoice)
+    } 
     
     return (
     <>
@@ -61,16 +66,19 @@ export default function InvoiceData() {
                     <p className="font-bold">Загалом: {invoice.items.reduce((acc, item) => acc + item.quantity * item.value, 0).toFixed(2)} грн</p>
                 </div>
                 {expanded === invoice.id && (
-                    <div className="mt-4">
+                <div className="mt-4">
                     <p className="font-semibold mb-2">Товар:</p>
                     <ul className="space-y-1">
-                        {invoice.items.map((item, index) => (
+                    {invoice.items.map((item, index) => (
                         <li key={index} className="text-sm">
-                            {item.name} — {item.quantity}шт x {item.value.toFixed(2)}грн/шт
+                        {item.name} — {item.quantity}шт x {item.value.toFixed(2)}грн/шт
                         </li>
-                        ))}
+                    ))}
                     </ul>
+                    <div className="mt-4">
+                    <InvoiceDownloadButton invoice={invoice}/>
                     </div>
+                </div>
                 )}
                 </Card>
             ))}
