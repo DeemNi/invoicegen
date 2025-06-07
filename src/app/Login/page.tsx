@@ -22,12 +22,27 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="max-w-sm mx-auto mt-20 space-y-4">
-      <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <Input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
+return (
+  <div className="flex items-center justify-center min-h-screen px-4">
+    <div className="w-full max-w-sm space-y-4">
+      <h1 className="text-center text-xl font-semibold">Авторизація</h1>
+      <Input
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <Input
+        type="password"
+        placeholder="Пароль"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       {error && <p className="text-red-500 text-sm">{error}</p>}
-      <Button onClick={handleLogin}>Увійти</Button>
+      <Button className="w-full" onClick={handleLogin}>
+        Увійти
+      </Button>
     </div>
-  );
+  </div>
+);
+
 }
