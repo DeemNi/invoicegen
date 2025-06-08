@@ -93,7 +93,7 @@ const fetchInvoices = async () => {
                       ))}
                     </ul>
                     <div className="mt-4">
-                      <DownloadInvoiceButton invoice={invoice} />
+                      <DownloadInvoiceButton invoice={invoice as any} />
                     </div>
                   </div>
                 )}
