@@ -114,6 +114,11 @@
 import React from 'react';
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
+
+import { pdf } from '@react-pdf/renderer';
+import { saveAs } from 'file-saver';
+// import InvoiceDocument from './InvoiceDocument'; // твій компонент з PDF Document
+
 type Invoice = {
   buyerName: string;
   date: Date;
@@ -164,26 +169,24 @@ const InvoiceDocument = ({ invoice }: { invoice: Invoice }) => (
 );
 
 export const InvoiceDownloadButton = ({ invoice }: { invoice: Invoice }) => {
-  if (!invoice || !invoice.items || invoice.items.length === 0) {
-    return <p>Інвойс порожній або некоректний</p>;
-  }
+  const handleDownload = async () => {
+    const blob = await pdf(<InvoiceDocument invoice={invoice} />).toBlob();
+    saveAs(blob, `Invoice_${invoice.buyerName}_${new Date(invoice.date).toLocaleDateString()}.pdf`);
+  };
 
   return (
-    <PDFDownloadLink
-      document={<InvoiceDocument invoice={invoice} />}
-      fileName={`Invoice_${invoice.buyerName}_${invoice.date.toLocaleDateString()}.pdf`}
+    <button
+      onClick={handleDownload}
       style={{
-        textDecoration: 'none',
         padding: '8px 16px',
-        color: '#fff',
         backgroundColor: '#0070f3',
+        color: '#fff',
         borderRadius: 4,
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 8,
+        border: 'none',
+        cursor: 'pointer',
       }}
     >
-      {({ loading }) => (loading ? 'Генерація...' : 'Завантажити PDF')}
-    </PDFDownloadLink>
+      Завантажити PDF
+    </button>
   );
 };
