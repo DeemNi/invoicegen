@@ -49,19 +49,24 @@ export default function SellerSearch({onSellerChange, value} : Props) {
     return(
         <>
       <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[300px] justify-between" // Розмір селектбокса
-        >
-          {value?.name
-            ? buyers.find((buyer) => buyer.value === value.name)?.label
-            : "Оберіть покупця..."}
-          <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[300px] justify-between"
+          >
+            <span
+              className="block max-w-[230px] overflow-hidden text-ellipsis whitespace-nowrap"
+              title={value?.name ?? "Оберіть покупця..."}
+            >
+              {value?.name
+                ? buyers.find((buyer) => buyer.value === value.name)?.label
+                : "Оберіть покупця..."}
+            </span>
+            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
       <PopoverContent className="w-[300px] p-0"> {/* Розмір випадаючого вікна селектбоксу */}
         <Command>
           <CommandInput placeholder="Оберіть покупця..." />

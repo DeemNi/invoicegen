@@ -9,7 +9,6 @@ import ProductSelector from './ProductSelector';
 import { addInvoiceData, InvoiceData } from '@/lib/api/addInvoiceData';
 import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute';
 
-
 type ProductItem = {
     id: string;
     name: string;
