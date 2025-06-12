@@ -1,27 +1,16 @@
 'use client'
 
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '@/lib/api/firebase';
-
-const AuthContext = createContext<{ user: User | null }>({ user: null });
+import { useAuth } from "@/components/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const { user } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
+    if (!user) router.push('/Login');
+  }, [user]);
 
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ user }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return user ? <>{children}</> : null;
 };
-
-export const useAuth = () => useContext(AuthContext);
