@@ -130,9 +130,12 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <Text style={styles.header}>{dateStr}</Text>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
         <Text style={styles.header}>Заявка по даній формі зміні не підлягає</Text>
-        <Text style={styles.header}>вул. Слави, 3/А</Text>
+      </View>      
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+        <Text style={styles.header}>{/* пусто */}</Text>
+        <Text style={styles.header}>{invoice.buyer_addr}</Text>
       </View>
       <View style={{ flexDirection: 'row', marginBottom: 4 }}>
         <Text style={styles.header}>№ маршруту доставки                                    </Text>
