@@ -11,6 +11,7 @@ export async function getProducts() {
             id: doc.id,
             name: data.name,
             price: data.price,
+            EAN_code: data.EAN_code, 
             ...data
         }
     });

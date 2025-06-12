@@ -19,12 +19,13 @@ type ProductRow = {
   name: string;
   value: number;
   quantity: number;
+  EAN_code: string; // необов'язкове поле для коду EAN
 }
 
 export default function ProductSelector({ onSubmit } : { onSubmit: (products: ProductRow[]) => void}) {
     const [openIndex, setOpenIndex] = React.useState<number | null>(null);
     const [rows, setRows] = React.useState<ProductRow[]>([]);
-    const [products, setProducts] = React.useState<{id: string, name: string, value:number}[]>([]);
+    const [products, setProducts] = React.useState<{id: string, name: string, value:number, EAN_code: string}[]>([]);
     const [errorIndex, setErrorIndex] = React.useState<number | null>(null);
 
     React.useEffect(() => {
@@ -33,7 +34,8 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
             const formattedData = data.map(product => ({
                 id: product.id,
                 name: product.name || 'Продукт не знайдено',
-                value: product.price || 0
+                value: product.price || 0,
+                EAN_code: product.EAN_code || ''
             }));
             setProducts(formattedData);
         };
@@ -50,7 +52,7 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
         }
         setRows(prev => [
             ...prev,
-            { rowUUID: uuidv4(), id: '', name: '', value: 0, quantity: 1 }
+            { rowUUID: uuidv4(), id: '', name: '', EAN_code: '', value: 0, quantity: 1 }
         ]);
         setErrorIndex(null);
     };
@@ -115,6 +117,7 @@ export default function ProductSelector({ onSubmit } : { onSubmit: (products: Pr
                                                     id: p.id,
                                                     name: p.name,
                                                     value: p.value,
+                                                    EAN_code: p.EAN_code,
                                                   });
                                                   setErrorIndex(null);
                                                 }}

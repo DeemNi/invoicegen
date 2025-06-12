@@ -48,6 +48,32 @@ const styles = StyleSheet.create({
     padding: 4,
     fontWeight: 'bold',
   },
+
+tableColName: {
+  flex: 3, // Найбільше місця
+  borderRightWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: '#000',
+  borderStyle: 'solid',
+  padding: 4,
+},
+tableColEAN: {
+  flex: 2,
+  borderRightWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: '#000',
+  borderStyle: 'solid',
+  padding: 4,
+},
+tableColSmall: {
+  flex: 1,
+  borderRightWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: '#000',
+  borderStyle: 'solid',
+  padding: 4,
+},
+
   tableCol: {
     flex: 1,
     borderRightWidth: 1,
@@ -69,6 +95,7 @@ export interface ProductItem {
   name: string;
   quantity: number;
   value: number;
+  EAN_code: string;
 }
 
 export interface InvoiceData {
@@ -108,7 +135,7 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
         <Text style={styles.header}>вул. Слави, 3/А</Text>
       </View>
       <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={styles.header}>№ маршруту доставки </Text>
+        <Text style={styles.header}>№ маршруту доставки                                    </Text>
         <Text style={styles.header}>№ позиції у маршруті доставки </Text>
       </View>
 
@@ -125,34 +152,33 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
         {/* Таблиця продуктів */}
         <View style={styles.table}>
           <View style={styles.tableRow}>
-            <Text style={styles.tableColHeader}>Найменування</Text>
-            <Text style={styles.tableColHeader}>Штрих код</Text>
-            <Text style={styles.tableColHeader}>Од.вим</Text>
-            <Text style={styles.tableColHeader}>Кількість</Text>
-            <Text style={styles.tableColHeader}>Ціна, грн з ПДВ</Text>
-            <Text style={styles.tableColHeader}>Сума, грн з ПДВ</Text>
+            <Text style={styles.tableColName}>Найменування</Text>
+            <Text style={styles.tableColEAN}>Штрих код</Text>
+            <Text style={styles.tableColSmall}>Од.вим</Text>
+            <Text style={styles.tableColSmall}>Кількість</Text>
+            <Text style={styles.tableColSmall}>Ціна, грн з ПДВ</Text>
+            <Text style={styles.tableColSmall}>Сума, грн з ПДВ</Text>
           </View>
-
           {invoice.product_data.map((item, i) => (
             <View key={i} style={styles.tableRow}>
-              <Text style={styles.tableCol}>{item.name}</Text>
-              <Text style={styles.tableCol}>Штрихкод</Text>
-              <Text style={styles.tableCol}>пляш</Text>
-              <Text style={styles.tableCol}>{item.quantity}</Text>
-              <Text style={styles.tableCol}>{item.value.toFixed(2)}</Text>
-              <Text style={[styles.tableCol, styles.bold]}>
+              <Text style={styles.tableColName}>{item.name}</Text>
+              <Text style={styles.tableColEAN}>{item.EAN_code}</Text>
+              <Text style={styles.tableColSmall}>пляш</Text>
+              <Text style={styles.tableColSmall}>{item.quantity}</Text>
+              <Text style={styles.tableColSmall}>{item.value.toFixed(2)}</Text>
+              <Text style={[styles.tableColSmall, styles.bold]}>
                 {(item.quantity * item.value).toFixed(2)}
               </Text>
             </View>
           ))}
 
           <View style={styles.tableRow}>
-            <Text style={[styles.tableCol, styles.bold]}>{/* пусто */}</Text>
-            <Text style={[styles.tableCol, styles.bold]}>{/* пусто */}</Text>
-            <Text style={[styles.tableCol, styles.bold]}>Всього:</Text>
-            <Text style={[styles.tableCol, styles.bold]}>{totalQuantity}</Text>
-            <Text style={[styles.tableCol, styles.bold]}>{/* пусто */}</Text>
-            <Text style={[styles.tableCol, styles.bold]}>{totalAmount.toFixed(2)}</Text>
+            <Text style={[styles.tableColName, styles.bold]}>{/* пусто */}</Text>
+            <Text style={[styles.tableColEAN, styles.bold]}>{/* пусто */}</Text>
+            <Text style={[styles.tableColSmall, styles.bold]}>Всього:</Text>
+            <Text style={[styles.tableColSmall, styles.bold]}>{totalQuantity}</Text>
+            <Text style={[styles.tableColSmall, styles.bold]}>{/* пусто */}</Text>
+            <Text style={[styles.tableColSmall, styles.bold]}>{totalAmount.toFixed(2)}</Text>
           </View>
         </View>
 
