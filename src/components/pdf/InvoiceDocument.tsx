@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   header: {
-    fontSize: 24,
+    fontSize: 12,
     marginBottom: 20,
   },
   section: {
@@ -87,10 +87,12 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
     0
   );
 
+  const date = new Date();
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.header}>Накладна</Text>
+        <Text style={styles.header}>{date.toDateString()}</Text>
         <View style={styles.section}>
           <Text style={styles.label}>Покупець:</Text>
           <Text style={styles.value}>{invoice.buyer_name}</Text>
