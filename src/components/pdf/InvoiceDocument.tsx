@@ -123,6 +123,8 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
     0
   );
 
+  const mD = Math.floor(Math.random() * 10) //машрут доставки
+  const mP = Math.floor(Math.random() * 10) //Маршрут позиції
 
   const date = new Date();
 
@@ -138,8 +140,8 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
         <Text style={styles.header}>{invoice.buyer_addr}</Text>
       </View>
       <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={styles.header}>№ маршруту доставки                                    </Text>
-        <Text style={styles.header}>№ позиції у маршруті доставки </Text>
+        <Text style={styles.header}>Маршруту доставки № {mD}                                   </Text>
+        <Text style={styles.header}>Позиція у маршруті доставки № {mP}</Text>
       </View>
 
         {/* <View style={styles.section}>
@@ -204,7 +206,7 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4, marginTop: 35 }}>
           <Text>{/* пусто */}</Text>
-          <Text>Експедитор: ________________ (підпис)  ________________ (призвіще і.б.)</Text>
+          <Text>Експедитор: ________________ (підпис)  ________________ (ПІБ)</Text>
         </View>
       </Page>
     </Document>
