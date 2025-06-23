@@ -123,8 +123,8 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
     0
   );
 
-  const mD = Math.floor(Math.random() * 10) //машрут доставки
-  const mP = Math.floor(Math.random() * 10) //Маршрут позиції
+  const mD = Math.floor(Math.random() * 9) + 1; //машрут доставки
+  const mP = Math.floor(Math.random() * 9) + 1; //Маршрут позиції
 
   const date = new Date();
 
