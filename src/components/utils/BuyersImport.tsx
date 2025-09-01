@@ -1,27 +1,25 @@
-import React from "react";
+"use client";
+import React, { ChangeEvent } from "react";
 import * as XLSX from "xlsx";
-import { db } from "../../lib/api/firebase"; // імпорт твоєї ініціалізації Firestore
+import { db } from "../../lib/api/firebase";
 import { collection, addDoc } from "firebase/firestore";
 
 export default function BuyersImport() {
-  const handleFile = async (e) => {
-    const file = e.target.files[0];
+  const handleFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (!file) return;
-
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    const jsonData = XLSX.utils.sheet_to_json<Record<string, unknown>>(worksheet);
 
-    // Формуємо масив для запису
-    const buyersData = jsonData.map((row) => ({
-      name: row["Buyer"] || "",
-      location: row["Location"] || "",
+    const buyersData = jsonData.map(row => ({
+      name: String(row["Buyer"] ?? ""),
+      location: String(row["Location"] ?? ""),
     }));
 
     try {
       const collectionRef = collection(db, "buyers_data");
-      // Записуємо по одному документу (можна оптимізувати батчем)
       for (const buyer of buyersData) {
         await addDoc(collectionRef, buyer);
       }
