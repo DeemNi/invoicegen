@@ -149,10 +149,16 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
           <Text style={styles.header}>{invoice.buyer_addr}</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-          <Text style={styles.header}>Маршруту доставки № {mD} </Text>
-          <Text style={styles.header}>Позиція у маршруті доставки № {mP}</Text>
-        </View>
+<View
+  style={{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  }}
+>
+  <Text style={styles.header}>Маршруту доставки № {mD}</Text>
+  <Text style={styles.header}>Позиція у маршруті доставки № {mP}</Text>
+</View>
 
         {/* Таблиця продуктів */}
         <View style={styles.table}>
