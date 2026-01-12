@@ -38,6 +38,18 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
   },
+
+  // NEW: column for index
+  tableColIndex: {
+    flex: 0.5,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    borderStyle: 'solid',
+    padding: 4,
+    textAlign: 'center',
+  },
+
   tableColHeader: {
     flex: 1,
     borderRightWidth: 1,
@@ -49,30 +61,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-tableColName: {
-  flex: 3, // Найбільше місця
-  borderRightWidth: 1,
-  borderBottomWidth: 1,
-  borderColor: '#000',
-  borderStyle: 'solid',
-  padding: 4,
-},
-tableColEAN: {
-  flex: 2,
-  borderRightWidth: 1,
-  borderBottomWidth: 1,
-  borderColor: '#000',
-  borderStyle: 'solid',
-  padding: 4,
-},
-tableColSmall: {
-  flex: 1,
-  borderRightWidth: 1,
-  borderBottomWidth: 1,
-  borderColor: '#000',
-  borderStyle: 'solid',
-  padding: 4,
-},
+  tableColName: {
+    flex: 3, // Найбільше місця
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    borderStyle: 'solid',
+    padding: 4,
+  },
+  tableColEAN: {
+    flex: 2,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    borderStyle: 'solid',
+    padding: 4,
+  },
+  tableColSmall: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#000',
+    borderStyle: 'solid',
+    padding: 4,
+  },
 
   tableCol: {
     flex: 1,
@@ -85,7 +97,7 @@ tableColSmall: {
   bold: {
     fontWeight: 'bold',
   },
-    footer: {
+  footer: {
     marginTop: 20,
     fontSize: 11,
   },
@@ -118,45 +130,35 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
     0
   );
 
-  const totalQuantity = invoice.product_data.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  const totalQuantity = invoice.product_data.reduce((sum, item) => sum + item.quantity, 0);
 
-  const mD = Math.floor(Math.random() * 9) + 1; //машрут доставки
-  const mP = Math.floor(Math.random() * 9) + 1; //Маршрут позиції
-
-  const date = new Date();
+  const mD = Math.floor(Math.random() * 9) + 1; // машрут доставки
+  const mP = Math.floor(Math.random() * 9) + 1; // Маршрут позиції
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <Text style={styles.header}>{dateStr}</Text>
-      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={styles.header}>Заявка по даній формі зміні не підлягає</Text>
-      </View>      
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
-        <Text style={styles.header}>{/* пусто */}</Text>
-        <Text style={styles.header}>{invoice.buyer_addr}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginBottom: 4 }}>
-        <Text style={styles.header}>Маршруту доставки № {mD}                                   </Text>
-        <Text style={styles.header}>Позиція у маршруті доставки № {mP}</Text>
-      </View>
 
-        {/* <View style={styles.section}>
-          <Text style={styles.label}>Покупець:</Text>
-          <Text style={styles.value}>{invoice.buyer_name}</Text>
-          <Text style={styles.value}>{invoice.buyer_addr}</Text>
+        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+          <Text style={styles.header}>Заявка по даній формі зміні не підлягає</Text>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.label}>Дата:</Text>
-          <Text style={styles.value}>{dateStr}</Text>
-        </View> */}
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+          <Text style={styles.header}>{/* пусто */}</Text>
+          <Text style={styles.header}>{invoice.buyer_addr}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', marginBottom: 4 }}>
+          <Text style={styles.header}>Маршруту доставки № {mD} </Text>
+          <Text style={styles.header}>Позиція у маршруті доставки № {mP}</Text>
+        </View>
 
         {/* Таблиця продуктів */}
         <View style={styles.table}>
+          {/* Header */}
           <View style={styles.tableRow}>
+            <Text style={styles.tableColIndex}>№</Text>
             <Text style={styles.tableColName}>Найменування</Text>
             <Text style={styles.tableColEAN}>Штрих код</Text>
             <Text style={styles.tableColSmall}>Од.вим</Text>
@@ -164,20 +166,25 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
             <Text style={styles.tableColSmall}>Ціна, грн з ПДВ</Text>
             <Text style={styles.tableColSmall}>Сума, грн з ПДВ</Text>
           </View>
-          {invoice.product_data.map((item, i) => (
-            <View key={i} style={styles.tableRow}>
-              <Text style={styles.tableColName}>{item.name}</Text>
-              <Text style={styles.tableColEAN}>{item.EAN_code}</Text>
-              <Text style={styles.tableColSmall}>пляш</Text>
-              <Text style={styles.tableColSmall}>{item.quantity}</Text>
-              <Text style={styles.tableColSmall}>{item.value.toFixed(2)}</Text>
-              <Text style={[styles.tableColSmall, styles.bold]}>
-                {(item.quantity * item.value).toFixed(2)}
-              </Text>
-            </View>
-          ))}
 
+          {/* Rows */}
+{invoice.product_data.map((item, i) => (
+  <View key={i} style={styles.tableRow} wrap={false}>
+    <Text style={styles.tableColIndex}>{i + 1}</Text>
+    <Text style={styles.tableColName}>{item.name}</Text>
+    <Text style={styles.tableColEAN}>{item.EAN_code}</Text>
+    <Text style={styles.tableColSmall}>пляш</Text>
+    <Text style={styles.tableColSmall}>{item.quantity}</Text>
+    <Text style={styles.tableColSmall}>{item.value.toFixed(2)}</Text>
+    <Text style={[styles.tableColSmall, styles.bold]}>
+      {(item.quantity * item.value).toFixed(2)}
+    </Text>
+  </View>
+))}
+
+          {/* Totals row */}
           <View style={styles.tableRow}>
+            <Text style={[styles.tableColIndex, styles.bold]}>{/* пусто */}</Text>
             <Text style={[styles.tableColName, styles.bold]}>{/* пусто */}</Text>
             <Text style={[styles.tableColEAN, styles.bold]}>{/* пусто */}</Text>
             <Text style={[styles.tableColSmall, styles.bold]}>Всього:</Text>
@@ -188,25 +195,45 @@ const InvoiceDocument = ({ invoice }: { invoice: InvoiceData }) => {
         </View>
 
         {/* Підсумки */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4, marginTop: 20 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 20,
+          }}
+        >
           <Text>Комірник: _________________________</Text>
           <Text>У тому числі ПДВ: {(totalAmount * 0.2).toFixed(2)}</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4, marginTop: 15 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 15,
+          }}
+        >
           <Text>Сума</Text>
           <Text>Сума до сплати: {totalAmount.toFixed(2)}</Text>
         </View>
-        
 
         {/* Підпис */}
         <View style={styles.footer}>
-          <Text >Товар перевірено і у повному обсязі прийнято до перевезення</Text>
+          <Text>Товар перевірено і у повному обсязі прийнято до перевезення</Text>
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4, marginTop: 35 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 35,
+          }}
+        >
           <Text>{/* пусто */}</Text>
-          <Text>Експедитор: ________________ (підпис)  ________________ (ПІБ)</Text>
+          <Text>Прийняв(ла): ________________ (підпис) ________________ (ПІБ)</Text>
         </View>
       </Page>
     </Document>

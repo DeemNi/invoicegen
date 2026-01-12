@@ -6,6 +6,7 @@ import { auth } from '@/lib/api/firebase';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import ExcelImport from '@/components/utils/ExcelImportData';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,6 +42,9 @@ return (
       <Button className="w-full" onClick={handleLogin}>
         Увійти
       </Button>
+
+      {/* <ExcelImport /> */}
+      
     </div>
   </div>
 );

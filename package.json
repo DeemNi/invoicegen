@@ -19,7 +19,7 @@
     "file-saver": "^2.0.5",
     "firebase": "^11.8.1",
     "lucide-react": "^0.511.0",
-    "next": "15.3.3",
+    "next": "^16.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.57.0",
